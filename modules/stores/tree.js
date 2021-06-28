@@ -464,7 +464,7 @@ const setValue = (state, path, delta, value, valueType, config, __isInternal) =>
     state.__isInternalValueChange = false;
   }
 
-  return state;
+  return {state, field};
 };
 
 /**
@@ -569,7 +569,7 @@ const emptyDrag = {
 export default (config) => {
   const emptyTree = defaultRoot(config);
   const emptyState = Object.assign({}, {tree: emptyTree}, emptyDrag);
-  const unset = {__isInternalValueChange: undefined};
+  const unset = {__isInternalValueChange: undefined, __lastField: undefined};
     
   return (state = emptyState, action) => {
     switch (action.type) {
@@ -605,9 +605,10 @@ export default (config) => {
 
     case constants.SET_VALUE: {
       let set = {};
-      const tree = setValue(state.tree, action.path, action.delta, action.value, action.valueType, action.config, action.__isInternal);
+      const {state: tree, field} = setValue(state.tree, action.path, action.delta, action.value, action.valueType, action.config, action.__isInternal);
       if (tree.__isInternalValueChange)
         set.__isInternalValueChange = true;
+      set.__lastField = field;
       return Object.assign({}, state, {...unset, ...set}, {tree});
     }
 
