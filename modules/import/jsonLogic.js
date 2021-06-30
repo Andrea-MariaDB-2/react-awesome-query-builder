@@ -87,13 +87,11 @@ const convertFromLogic = (logic, conv, config, expectedType, meta, not = false, 
   for (let [opName, operatorConfig] of Object.entries(config.operators).filter(([_, v]) => v.jsonLogicImport)) {
     try {
       return {
+        type: 'rule',
+        id: QbUtils.uuid(),
         properties: {
-            type: 'rule',
-            id: QbUtils.uuid(),
-            properties: {
-                operator: opName,
-                ...operatorConfig.jsonLogicImport(logic),
-            },
+            operator: opName,
+            ...operatorConfig.jsonLogicImport(logic),
         },
       };
     } catch(e) {}
