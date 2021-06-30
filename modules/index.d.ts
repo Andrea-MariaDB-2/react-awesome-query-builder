@@ -348,6 +348,7 @@ interface BaseOperator {
   sqlOp?: string,
   sqlFormatOp?: SqlFormatOperator,
   jsonLogic?: string | JsonLogicFormatOperator,
+  jsonLogicImport?: JsonLogicImportFunc,
   _jsonLogicIsRevArgs?: boolean,
   valueSources?: Array<ValueSource>,
 }

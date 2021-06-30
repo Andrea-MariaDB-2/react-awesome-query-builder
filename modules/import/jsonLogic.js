@@ -83,6 +83,22 @@ const buildConv = (config) => {
 
 const convertFromLogic = (logic, conv, config, expectedType, meta, not = false, fieldConfig, widget, parentField = null) => {
   let op, vals;
+  
+  for (let [opName, operatorConfig] of Object.entries(config.operators).filter(([_, v]) => v.jsonLogicImport)) {
+    try {
+      return {
+        properties: {
+            type: 'rule',
+            id: QbUtils.uuid(),
+            properties: {
+                operator: opName,
+                ...operatorConfig.jsonLogicImport(logic),
+            },
+        },
+      };
+    } catch(e) {}
+  }
+
   if (isJsonLogic(logic)) {
     op = Object.keys(logic)[0];
     vals = logic[op];
