@@ -517,8 +517,8 @@ const convertOp = (op, vals, conv, config, not, meta, parentField = null) => {
   if (!op) return undefined;
 
   const arity = vals.length;
-  if (["any", "all"].includes(op) && isJsonLogic(vals[1])) {
-    // special case for "all-in" and "any-in"
+  if (["some", "all"].includes(op) && isJsonLogic(vals[1])) {
+    // special case for "all-in" and "some-in"
     const op2 = Object.keys(vals[1])[0];
     if (op2 == "in") {
       vals = [
